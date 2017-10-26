@@ -1,0 +1,92 @@
+
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+     content="width=device-width, initial-scale=1, user-scalable=yes">
+  <title>Table Filter</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script>
+
+  angular.module('TableFilterApp', [])
+    .controller('TableFilterController', function($scope) {
+      $scope.classMates = [
+        {
+          name : 'Mary',
+          age : 24,
+          gender : 'Female'
+        },
+        {
+          name : 'Venus',
+          age : 37,
+          gender : 'Female'
+        },
+        {
+          name : 'Elmer',
+          age: 31,
+          gender : 'Male'
+        },
+        {
+          name : 'Mark',
+          age : 25,
+          gender : 'Male'
+        },
+        {
+          name : 'Clay',
+          age : 28,
+          gender : 'Male'
+        },
+        {
+          name : 'Jane',
+          age : 52,
+          gender : 'Female'
+        },
+        {
+          name : 'Sue',
+          age : 38,
+          gender : 'Female'
+        },
+        {
+          name : 'Blue',
+          age : 19,
+          gender : 'Male'
+        },
+        {
+          name : 'Nate',
+          age: 30,
+          gender : 'Male'
+        },
+        {
+          name : 'Paul',
+          age : 39,
+          gender : 'Male'
+        }
+      ];
+      $scope.f = {};
+
+      $scope.filter_by = function(field) {
+        console.log(field);
+        console.log($scope.g[field]);
+        if ($scope.g[field] === '') {
+             delete $scope.f['__' + field];
+             return;
+        }
+        $scope.f['__' + field] = true;
+        $scope.classMates.forEach(function(v) { v['__' + field] = v[field] < $scope.g[field]; })
+      }
+
+    });
+  </script>
+
+</head>
+<body ng-app="TableFilterApp" ng-controller="TableFilterController">
+
+<table>
+<tr><th>Name</th><th>Age</th><th>Gender</th></tr>
+<tr><td><input ng-model="f.name"></td><td><input ng-model="g.age" ng-change="filter_by('age')"></td><td><input ng-model="g.gender" ng-change="filter_by('gender')"></td></tr>
+<tr ng-repeat="p in classMates | filter:f"><td>{{p.name}}</td><td>{{p.age}}</td><td>{{p.gender}}</td></tr>
+</table>
+</body>
+</html>
